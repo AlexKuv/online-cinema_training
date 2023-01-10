@@ -14,7 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     @InjectModel(UserModel) private readonly UserModel: ModelType<UserModel>
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken,
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: true,
       secretOrKey: configService.get('JWT_ACCESS'),
     })
@@ -22,5 +22,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate({ _id }: Pick<UserModel, '_id'>) {
     const user = await this.UserModel.findById(_id).exec()
+    return user
   }
 }
