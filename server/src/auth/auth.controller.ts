@@ -11,22 +11,22 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @UsePipes(new ValidationPipe())
-  @HttpCode(200)
   @Post('login')
+  @HttpCode(200)
   async login(@Body() dto: AuthDto) {
     return this.authService.login(dto)
   }
 
   @UsePipes(new ValidationPipe())
-  @HttpCode(200)
   @Post('login/access-token')
+  @HttpCode(200)
   async getNewTokens(@Body() dto: RefreshTokenDto) {
     return this.authService.getNewTokens(dto)
   }
 
   @UsePipes(new ValidationPipe())
-  @HttpCode(200)
   @Post('register')
+  @HttpCode(200)
   async register(@Body() dto: AuthDto) {
     return this.authService.register(dto)
   }
