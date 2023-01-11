@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { ModelType } from '@typegoose/typegoose/lib/types'
 import { InjectModel } from 'nestjs-typegoose'
 
@@ -10,7 +10,10 @@ export class UserService {
     @InjectModel(UserModel) private readonly UserModel: ModelType<UserModel>
   ) {}
 
-  async byId() {
-    return { email: 'test@test.ru' }
+  async byId(id: string) {
+    const user = await this.UserModel.findById(id)
+    if (!user) throw new NotFoundException('User not found')
+
+    return user
   }
 }
