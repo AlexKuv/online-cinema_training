@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common'
+import { Controller, Delete } from '@nestjs/common'
 import { Get } from '@nestjs/common/decorators'
 import { UsePipes } from '@nestjs/common/decorators/core/use-pipes.decorator'
 import { HttpCode } from '@nestjs/common/decorators/http/http-code.decorator'
@@ -42,5 +42,12 @@ export class UserController {
     @Body() dto: updateUserDto
   ) {
     return this.userService.updateProfile(id, dto)
+  }
+
+  @Delete(':id')
+  @HttpCode(200)
+  @Auth('admin')
+  async deleteUser(@Param('id', IdValidationPipe) id: string) {
+    return this.userService.delete(id)
   }
 }
