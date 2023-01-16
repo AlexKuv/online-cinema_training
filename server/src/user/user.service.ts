@@ -3,6 +3,8 @@ import { ModelType } from '@typegoose/typegoose/lib/types'
 import { InjectModel } from 'nestjs-typegoose'
 
 import { UserModel } from './user.model'
+import { updateUserDto } from './dto/updateUser.dto'
+import { genSalt, hash } from 'bcryptjs'
 
 @Injectable()
 export class UserService {
@@ -15,5 +17,25 @@ export class UserService {
     if (!user) throw new NotFoundException('User not found')
 
     return user
+  }
+
+  async updateProfile(_id: string, dto: updateUserDto) {
+    const user = await this.byId(_id)
+    const isSameUser = await this.UserModel.findOne({ emain: dto.email })
+
+    if (isSameUser && String(_id) !== String(isSameUser._id))
+      throw new NotFoundException('Email busy')
+
+    if (dto.password) {
+      const salt = await genSalt(10)
+      user.password = await hash(dto.password, salt)
+    }
+
+    user.email = dto.email
+    if (dto.isAdmin || dto.isAdmin === false) user.isAdmin = dto.isAdmin
+
+    await user.save()
+
+    return
   }
 }
