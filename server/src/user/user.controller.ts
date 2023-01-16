@@ -1,4 +1,4 @@
-import { Controller, Delete } from '@nestjs/common'
+import { Controller, Delete, Query } from '@nestjs/common'
 import { Get } from '@nestjs/common/decorators'
 import { UsePipes } from '@nestjs/common/decorators/core/use-pipes.decorator'
 import { HttpCode } from '@nestjs/common/decorators/http/http-code.decorator'
@@ -31,6 +31,24 @@ export class UserController {
   @Auth()
   async updateProfile(@User('_id') _id: string, @Body() dto: updateUserDto) {
     return this.userService.updateProfile(_id, dto)
+  }
+
+  @Get('count')
+  @Auth('admin')
+  async getCountUsers() {
+    return this.userService.getCount()
+  }
+
+  @Get()
+  @Auth('admin')
+  async getUsers(@Query('searchTerm') searchTerm?: string) {
+    return this.userService.getAll(searchTerm)
+  }
+
+  @Get(':id')
+  @Auth('admin')
+  async getUser(@Param('id', IdValidationPipe) id: string) {
+    return this.userService.byId(id)
   }
 
   @UsePipes(new ValidationPipe())
