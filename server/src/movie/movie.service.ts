@@ -27,24 +27,22 @@ export class MovieService {
 
     return this.MovieModel.find(options)
       .select('-updatedAt -__v')
-      .sort({
-        createdAt: 'desc',
-      })
-      .populated('actors genres')
+      .sort({ createdAt: 'desc' })
+      .populate('genres actors')
       .exec()
   }
 
   async bySlug(slug: string) {
-    const doc = await (await this.MovieModel.findOne({ slug }))
-      .populated('actors genres')
+    const doc = await this.MovieModel.findOne({ slug })
+      .populate('genres actors')
       .exec()
     if (!doc) throw new NotFoundException('Movie is not found')
 
     return doc
   }
 
-  async byActor(actorId: string) {
-    const docs = await await this.MovieModel.find({ actors: actorId }).exec()
+  async byActor(actorId: Types.ObjectId) {
+    const docs = await this.MovieModel.find({ actors: actorId }).exec()
     if (!docs) throw new NotFoundException('Movies is not found')
 
     return docs
@@ -58,18 +56,17 @@ export class MovieService {
   }
 
   async getMostPopular() {
-    return await this.MovieModel.find({ countOpened: { $gt: 0 } })
+    return this.MovieModel.find({ countOpened: { $gt: 0 } })
       .sort({ countOpened: -1 })
-      .populated('genres')
+      .populate('genres')
       .exec()
   }
 
   async updateCountOpened(slug: string) {
-    const updateMovie = await this.MovieModel.findByIdAndUpdate(
+    const updateMovie = await this.MovieModel.findOneAndUpdate(
       { slug },
-      {
-        $inc: { countOpened: 1 },
-      }
+      { $inc: { countOpened: 1 } },
+      { new: true }
     ).exec()
     if (!updateMovie) throw new NotFoundException('Movie is not found')
 
@@ -90,7 +87,6 @@ export class MovieService {
       bigPoster: '',
       actors: [],
       genres: [],
-      description: '',
       poster: '',
       title: '',
       videoUrl: '',

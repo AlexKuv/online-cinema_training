@@ -28,9 +28,6 @@ export class UpdateMovieDto {
   title: string
 
   @IsString()
-  description: string
-
-  @IsString()
   slug: string
 
   @IsObject()
@@ -47,6 +44,6 @@ export class UpdateMovieDto {
   @IsString({ each: true })
   actors: string[]
 
-  @IsBoolean()
+  // TODO: @IsBoolean выдает ошибку на необязательном параметре
   isSendTelegram?: boolean
 }
