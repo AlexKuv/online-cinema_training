@@ -3,6 +3,7 @@ import {
   IsBoolean,
   IsNumber,
   IsObject,
+  IsOptional,
   IsString,
 } from 'class-validator'
 
@@ -44,6 +45,7 @@ export class UpdateMovieDto {
   @IsString({ each: true })
   actors: string[]
 
-  // TODO: @IsBoolean выдает ошибку на необязательном параметре
+  @IsOptional()
+  @IsBoolean()
   isSendTelegram?: boolean
 }
