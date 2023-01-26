@@ -8,10 +8,10 @@ export interface RatingModel extends Base {}
 
 export class RatingModel extends TimeStamps {
   @prop({ ref: () => UserModel })
-  user: Ref<UserModel>
+  userId: Ref<UserModel>
 
   @prop({ ref: () => MovieModel })
-  movie: Ref<MovieModel>
+  movieId: Ref<MovieModel>
 
   @prop()
   value: number
