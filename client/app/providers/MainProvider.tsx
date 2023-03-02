@@ -1,11 +1,7 @@
-import { FC, ReactNode } from 'react'
+import { FC, PropsWithChildren } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
 import Layout from '@/components/layout/Layout'
-
-type Props = {
-  children?: ReactNode
-}
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,7 +11,7 @@ const queryClient = new QueryClient({
   },
 })
 
-const MainProvider: FC<Props> = ({ children }) => {
+const MainProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <Layout>{children}</Layout>

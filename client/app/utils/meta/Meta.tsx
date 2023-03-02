@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, PropsWithChildren } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
@@ -8,7 +8,12 @@ import { onlyText } from '../string/clearText'
 
 import logoImage from '@/assets/images/logo.svg'
 
-const Meta: FC<ISeo> = ({ title, description, image, children }) => {
+const Meta: FC<PropsWithChildren<ISeo>> = ({
+  title,
+  description,
+  image,
+  children,
+}) => {
   const { asPath } = useRouter()
   const currentUrl = `${process.env.APP_URL}${asPath}`
 
