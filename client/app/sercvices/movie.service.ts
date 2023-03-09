@@ -9,4 +9,12 @@ export const MovieService = {
       params: searchTerm ? { searchTerm } : {},
     })
   },
+
+  async getMostPopularMovies() {
+    const { data: movie } = await axiosClassic.get<IMovie[]>(
+      getMoviesUrl('/most-popular')
+    )
+
+    return movie
+  },
 }
