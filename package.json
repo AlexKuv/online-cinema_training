@@ -1,0 +1,25 @@
+{
+  "name": "online-cinema_training",
+  "version": "1.0.0",
+  "description": "",
+  "engines": {
+    "node": "14.17.6"
+  },
+  "scripts": {
+    "dev": "concurrently \"(npm run dev --prefix server)\" \"wait-on http://localhost:8000/api && (npm run dev --prefix client)\" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexKuv/online-cinema_training.git"
+  },
+  "author": "Alex Kuvaldin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexKuv/online-cinema_training/issues"
+  },
+  "homepage": "https://github.com/AlexKuv/online-cinema_training#readme",
+  "dependencies": {
+    "concurrently": "^7.6.0",
+    "wait-on": "^7.0.1"
+  }
+}
